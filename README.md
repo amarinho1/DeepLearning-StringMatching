@@ -1,1 +1,1 @@
-# DeepLearning-StringMatching
+# DeepLearning-StringMatching - M.Sc. Thesis
