@@ -8,8 +8,8 @@ Python 2 and Keras 1.2.2
 
 Python 3 and Keras 2.2.2
 + `functionaldnn.py` - 2-Stacked BiGRU encoder with various extensions. Functional Keras Model.
-+ `stacked_bilstm_max.py`- 3-Stacked RNN encoder with maxpooling between layers.
-+ `feature/stacked_bilstm_max_feature.py` - Feature variant of `stacked_bilstm_max.py`. Takes one extra feature as input.
++ `stacked_gru_max.py`- 3-Stacked BiGRU encoder with maxpooling between layers.
++ `feature/stacked_gru_max_feature.py` - Feature variant of `stacked_gru_max.py`. Takes one extra feature as input.
 
 `layers.py` - Custom Keras layers and callbacks.
 
