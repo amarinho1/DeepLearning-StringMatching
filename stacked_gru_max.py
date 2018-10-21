@@ -19,7 +19,7 @@ from theano.tensor import _shared
 
 
 def deep_neural_net_gru(train_data_1, train_data_2, train_labels, test_data_1, test_data_2, test_labels, max_len,
-                        len_chars,  bidirectional, hidden_units, selfattention , maxpooling, alignment , shortcut , multiplerlu , onlyconcat, n):
+                        len_chars,  bidirectional, hidden_units, n):
     early_stop = EarlyStopping(monitor='loss', patience=2, verbose=1)
     checkpointer = ModelCheckpoint(filepath="/home/amarinho/data-amarinho/checkpoint" + str(n) +".hdf5", verbose=1, save_best_only=True)
     lstm1 = GRU(hidden_units, implementation=2, return_sequences=True, name='lstm1' )
@@ -80,8 +80,7 @@ def deep_neural_net_gru(train_data_1, train_data_2, train_labels, test_data_1, t
     return aux, (time.time() - start_time)
 
 def evaluate_deep_neural_net(dataset='dataset-string-similarity.txt', method='gru', training_instances=-1,
-                             bidirectional=True, hiddenunits=60, selfattention=False , maxpooling=False , 
-                        alignment = False , shortcut=True , multiplerlu=False , onlyconcat=False):
+                             bidirectional=True, hiddenunits=60):
     max_seq_len = 40
     num_true = 0.0
     num_false = 0.0
@@ -181,15 +180,13 @@ def evaluate_deep_neural_net(dataset='dataset-string-similarity.txt', method='gr
                                       train_data_2=XB1[0:training_instances, :, :],
                                       train_labels=Y1[0:training_instances, ], test_data_1=XA2, test_data_2=XB2,
                                       test_labels=Y2, max_len=max_seq_len, len_chars=len(chars),
-                                      bidirectional=bidirectional, hidden_units=hiddenunits, selfattention=selfattention , maxpooling=maxpooling , 
-                                      alignment = alignment , shortcut=shortcut , multiplerlu=multiplerlu , onlyconcat=onlyconcat,n=1)
+                                      bidirectional=bidirectional, hidden_units=hiddenunits,n=1)
 
     aux2, time2 = deep_neural_net_gru(train_data_1=XA2[0:training_instances, :, :],
                                       train_data_2=XB2[0:training_instances, :, :],
                                       train_labels=Y2[0:training_instances, ], test_data_1=XA1, test_data_2=XB1,
                                       test_labels=Y1, max_len=max_seq_len, len_chars=len(chars),
-                                      bidirectional=bidirectional, hidden_units=hiddenunits, selfattention=selfattention , maxpooling=maxpooling , 
-                                      alignment = alignment , shortcut=shortcut , multiplerlu=multiplerlu , onlyconcat=onlyconcat,n=2)
+                                      bidirectional=bidirectional, hidden_units=hiddenunits,n=2)
     timer = time1 + time2
     print( "Total Time :", timer)
     print( "Matching records...")
@@ -225,11 +222,6 @@ def evaluate_deep_neural_net(dataset='dataset-string-similarity.txt', method='gr
     file.close()
     print ("Metric = Deep Neural Net Classifier :", method.upper())
     print ("Bidirectional :", bidirectional)
-    print ("Highway Network :", multiplerlu)
-    print ("Shortcut Connections:", shortcut)
-    print ("Maxpolling :", maxpooling)
-    print ("Inner Attention :", selfattention)
-    print ("Hard Allignment Attention :", alignment)
     print ("Accuracy =", acc)
     print ("Precision =", pre)
     print ("Recall =", rec)
